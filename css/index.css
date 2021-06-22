@@ -1,0 +1,138 @@
+body
+{
+    width: 100%;
+    height: 100vh;
+    display: block;
+}
+.center
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.space-0
+{
+    margin: 0%;
+    padding: 0%;
+}
+.dis-flex
+{
+    display: flex;
+}
+.conteneur
+{
+    display: flex;
+    height: 100%;
+    background-color: rgb(26, 25, 25);
+}
+.conteneur-1
+{
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    background-color: #2f2f2fb3;
+    justify-content: space-evenly;
+}
+.conteneur-2
+{
+    width: 75%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.conteneur-3
+{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+}
+.conteneur-1 label
+{
+    color: white;
+}
+.conteneur-1 input
+{
+    width: 90%;
+}
+.textArea
+{
+    width: 90%;
+    height: 30%;
+}
+.divButtonSave
+{
+    width: 100%;
+    height: 5%;
+}
+.saveButton
+{
+    background-color: rgb(17, 168, 17);
+    color: white;
+    border-radius: 4%;
+    padding: 2%;
+    cursor: pointer;
+}
+.card
+{
+    background-color: rgb(255, 255, 255);
+    flex-direction: column;
+    height: 70vh;
+    width: 50vh;
+    border-radius: 4%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.divImg
+{
+    width: 100%;
+    height: 50%;
+    box-shadow: -4px 2px 8px 0 rgb(0 0 0 / 20%), -2px 5px 20px 0 rgb(0 0 0 / 19%);
+}
+.img
+{
+    width: 100%;
+    height: auto;
+    object-fit: none;
+    border-radius: 4% 4% 0% 0%;
+}
+.divTitle
+{
+    width: 100%;
+    height: 20%;
+}
+.divTitle h1
+{
+    padding: 0%;
+    color: black;
+    margin-bottom: 4%;
+    font-family: Optima, sans-serif;
+}
+.divText
+{
+    width: 70%;
+    height: 40%;
+    font-family: Helvetica, sans-serif;
+}
+.divButton
+{
+    width: 100%;
+    height: 30%;
+}
+.buttonChange
+{
+    width: 50%;
+    height: auto;
+    background-color: rgb(36, 36, 36);
+    color: white;
+    padding: 4%;
+    font-size: 1em;
+    border-radius: 8px;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+}
+.buttonChange:active
+{
+    box-shadow: rgba(0, 0, 0, 0.788) 0px 5px 15px;
+}
