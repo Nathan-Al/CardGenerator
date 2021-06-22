@@ -5,48 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contract</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 <body class="space-0">
-    <div class="conteneur">
-        <div class="conteneur-1 center">
-            <label for="Image">Image</label>
-            <input type="text" name="Image" id="inputImage"/>
-            <label for="Titre">Titre</label>
-            <input name="Titre" id="inputTitre" type="text">
-            <label for="Desc">Description</label>
-            <textarea class="textArea" name="Desc" id="inputDesc"></textarea>
-            <label for="Button">Valeur du button</label>
-            <input type="text" name="Button" id="inputButton">
-            <div class="divButtonSave">
-                <input class="saveButton" type="button" value="Save" id="buttonSave">
+    <div class="conteneur dis-flex space-0">
+        <div class="card dis-flex">
+            <div class="divImg dis-flex">
+                <img id="img" class="img" src="./img/echd.jpg" alt="">
             </div>
-        </div>
-        <div class="conteneur-2 dis-flex space-0">
-            <div class="card dis-flex">
-                <div class="divImg dis-flex">
-                    <img id="img" class="img" src="echd.jpg" alt="">
+            <div class="conteneur-2 center">
+                <div class="divTitle center space-0">
+                    <h1 id="titre">
+                        Weird ass Contract
+                    </h1>
                 </div>
-                <div class="conteneur-3 center">
-                    <div class="divTitle center space-0">
-                        <h1 id="titre">
-                            Weird ass Contract
-                        </h1>
-                    </div>
-                    <div class="divText center">
-                        <p id="description">
-                            Do you accept to sign the contract even with the fact that you have no 
-                            idea what the fuck going on ?
-                        </p>
-                    </div>
-                    <div class="divButton center">
-                        <button class="buttonChange" id="button">COUNT ME IN</button>
-                    </div>
+                <div class="divText center">
+                    <p id="text">
+                        Do you accept to sign the contract even with the fact that you have no 
+                        idea what the fuck going on ?
+                    </p>
+                </div>
+                <div class="divButton center">
+                    <button class="buttonChange" id="button">COUNT ME IN</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="index.js"></script>
 </body>
 </html>

@@ -1,11 +1,15 @@
 {
     "url-image":[
-        "./img/echd.jpg"
+        "./img/echd.jpg",
+		"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flh3.googleusercontent.com%2Fproxy%2FMryUNt-5f_rEq6Etm4X333IxehprJWEEh9nbTlLfQDOoLX6hswOr--Z-cd1nejd3rTQcalW-i7msMD_RswiIhp9lAkc%3Dw1200-h630-p-k-no-nu&f=1&nofb=1",
+        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F80%2F1e%2F0f%2F801e0f4dfe958b3cc1cf518a3fb38134.png&f=1&nofb=1"
     ],
     "titre":[
-        "Weird ass Contract"
+        "Weird ass Contract",
+		"Random Term and Service"
     ],
     "text":[
-        "Do you accept to sign the contract even with the fact that you have no idea what the fux going on ?"
+        "Do you accept to sign the contract even with the fact that you have no idea what the fux going on ?",
+		"By clicking this button you accept to give bla bla to us and bla bla when you blabla we all know you gonna read that anyways"
     ]
 }
