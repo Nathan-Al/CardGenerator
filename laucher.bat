@@ -1,1 +1,1 @@
-node ServMano/index.js
+npm run start

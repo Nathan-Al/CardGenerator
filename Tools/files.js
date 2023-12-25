@@ -3,13 +3,16 @@ let fsPromises = require('fs').promises;
 const child_proc = require('child_process');
 const os = require('os');
 
-var NameSpace_LecteurFichiers = {
-    'name': 'Lecteur Fichiers . js',
-    'Date de création ': '22/03/2020',
-    'Utilisations': 'Fichiers classant toute fonction de lecture de document/dossier',
-    'langage': 'JavaScript',
-    'langue': 'Français',
-
+/**
+ * @name LecteurFichiers
+ * @description Fonction with all the function handle files
+ * @typedef {Object} LecteurFichiers
+ * @property {Object} Dossier Everything that concern the use of dirs
+ * @property {Object} Fichier Everything that concern the use of files
+ *
+ * @created 22/03/2020
+ */
+const LecteurFichiers = {
     Dossier: {
         ScanDossier: async function ScanDosier(liensDossier, extensions) {
             //La valeurs extensions ne peut être que true ou false, elle détermine si les fichier && les dossier doivent être lister
@@ -75,12 +78,10 @@ var NameSpace_LecteurFichiers = {
             }
         },
         ScanViews: async function ScanViews(liensDossier) {
-            let document = [];
             let documentReturn = await fsPromises.readdir(liensDossier);
             return documentReturn;
         },
         ScanController: async function ScanController(liensDossier) {
-            let document = [];
             let documentReturn = await fsPromises.readdir(liensDossier);
             return documentReturn;
         }
@@ -108,7 +109,6 @@ var NameSpace_LecteurFichiers = {
                         console.log("Erreur to read on data :: " + errt);
                         throw errt;
                     });
-                    readS.destroy();
                     datas[1] = await new Promise(function(resolve, reject) {
                         readS.on('end', async function() {
                             resolve(await buffed.toString());
@@ -166,6 +166,7 @@ var NameSpace_LecteurFichiers = {
             });
         }, 
         creer: async function CreeFichier(destination ="", nom="", extensions="", data="") {
+
             if (nom.lastIndexOf("/") != "-1")
                 nom.replace("/", "")
             if (nom.lastIndexOf(".") != -1)
@@ -184,15 +185,9 @@ var NameSpace_LecteurFichiers = {
                 await fs.stat(destination, async function(err, stat) {
                     if (stat) {
                         try {
-                            await fsPromises.writeFile(destination + nom + extensions, (err) => {
+                            await fsPromises.writeFile(destination + nom + extensions, data, (err) => {
                                 throw err;
                             });
-                            try {
-                                await NameSpace_LecteurFichiers.Fichier.ecrire(destination + nom + extensions,data)
-                            }catch(e)
-                            {
-                                throw e;
-                            }
                             return true;
                         } catch (Exception) {
                             throw Exception;
@@ -203,16 +198,42 @@ var NameSpace_LecteurFichiers = {
                 });
             }
         },
-        VerifyFile: async function VerifierExisteFiles(path) {
+        /**
+         * Verify that a file exist
+         * 
+         * @typedef {Object} options
+         * @property {array} exts the possible different extenions that the files may have
+         * @param {options} options [exts:array]
+         * @param {String} path The full path were the file is
+         * @returns boolean | String
+        */
+        VerifyFile: async function VerifierExisteFiles(path, options = {exts:[]}) {
             try {
-                if (await fs.statSync(path))
+                if(options['exts'].length != 0) {
+                    for (const element in options['exts']) {
+                        if (await fs.existsSync(path+'.'+options['exts'][element]))
+                            return path+'.'+options['exts'][element];
+                    }
+                }
+
+                if (await fs.statSync(path)) {
                     return true;
+                }
             } catch (err) {
                 return false;
             }
         },
-        ecrire: async function EcrireDansFichiers(path, trucAEcrire) {
-            //fs.stat(path, async(err, stat) => {
+        /**
+         * Function that allow to write in a file
+         * 
+         * @param {String} path 
+         * @param {String} datas 
+         * 
+         * @throw fs WriteStream Error
+         * 
+         * @returns boolean
+         */
+        ecrire: async function EcrireDansFichiers(path, datas) {
             if (!fs.statSync(path)) {
                 if (err.code === 'EEXIST') {
                     console.error('myfile already exists');
@@ -221,20 +242,15 @@ var NameSpace_LecteurFichiers = {
                 throw err;
             } else {
                 let write = await fs.createWriteStream(path,{flags:'rs+'})
-                await write.write(trucAEcrire, 'utf-8')
+                await write.write(datas, 'utf-8')
 
-                //let j = await new Promise(function(resolve, reject) {
-                let k = write.on('end', async function() {
+                return write.on('end', async function() {
                         resolve(true);
                     }).on('error', async(err) => {
                         console.log("Erreur to read on data :: " + err);
                         throw err;
                     })
-                    //})
-
-                return k;
             }
-            // });
         },
         supprimer : async function SupprimerFichiers(path)
         {
@@ -254,43 +270,4 @@ var NameSpace_LecteurFichiers = {
     }
 }
 
-exports.LecteurFichiers = NameSpace_LecteurFichiers;
-
-var NameSpace_Normalisations = {
-    'name': 'Normalisations . js',
-    'Date de création ': '22/03/2020',
-    'Utilisations': 'Nettoyage de chaine de caractère ou normalisation de données',
-    'langage': 'JavaScript',
-    'langue': 'Français',
-
-    Chaine: {
-        NettoyageCharactere_1: function NettoyageCharac(variable) {
-            console.log(variable)
-            variable = variable.trim();
-            let charac_a_enlever = ['\\', "/", ":", "*", "?", '"', "<", ">", "|", " "];
-            charac_a_enlever.forEach(function(value) {
-                variable = variable.replace(value, "");
-            });
-            variable = variable.trim();
-
-            console.log(variable)
-            return variable;
-        },
-        MajusculePremiereLettre: function upperCaseFirstLetter(str) {
-            return str.replace(/\w\S*/g, function(txt) {
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            });
-        },
-        NettoyageCharactere_2: NettoyageCharacter = async function nettoyageCharacters(chaineCarach) {
-            await chaineCarach.replace(
-                'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ',
-                'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
-            await chaineCarach.replace('/([^.a-z0-9]+)/i ', '');
-            await chaineCarach.toLowerCase(chaineCarach);
-
-            return chaineCarach;
-        }
-    }
-}
-
-exports.NameSpace_Normalisations = NameSpace_Normalisations;
+exports.LecteurFichiers = LecteurFichiers;

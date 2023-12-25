@@ -1,1 +1,7 @@
+test
+/.env
+.vscode
+.devcontainer
+/docker-compose.yml
+ServExpress/Teta/__pycache__
 node_modules
