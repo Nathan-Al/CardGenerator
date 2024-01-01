@@ -7,21 +7,22 @@
     <link type="text/css" rel="stylesheet" href='/Public/Css/Interne/base.css'>
     <link type="text/css" rel="stylesheet" href='/Public/Css/Interne/home.css'>
     <title>
-        Home
+        Card Generator
     </title>
 </head>
 
 <body id="body">
+    <h1 id="debug">DEBUG </h1>
     <div class="main">
         <div class="conteneur-fl center">
             <div class="card">
-                <div class="img">
+                <div class="divImg">
                     <label for="imgCardInput">
-                        <img src="/assets/echd.jpg" alt="" srcset="" id="contrImg">
+                        <img src="" alt="" srcset="" id="contrImg">
                         <input type="file" name="imgCard" id="imgCardInput" accept="image/*">
                     </label>
                 </div>
-                <div class="content">
+                <div class="content center">
                     <div class="title center">
                         <textarea name="contratTitle" id="contratTitleTextArea" spellcheck="false">Weird ass contract</textarea>
                     </div>
@@ -29,14 +30,14 @@
                         <textarea name="contrat" id="contratContent" spellcheck="false">I want your Kindney. Now and Forever. In exchange you will get strange power like... turning apple blue ?</textarea>
                     </div>
                     <div class="end center">
-                        <button class="validateButton" type="submit" id="straToHell">Hell yeah brother</button>
+                        <button class="validateButton" type="submit" id="straightToHell">Hell yeah brother</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="/Public/Scripts/home.js"></script>
 </body>
-
-<script src="/Public/Scripts/home.js"></script>
 
 </html>
