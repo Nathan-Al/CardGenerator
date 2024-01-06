@@ -2,40 +2,31 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use std::env;
 use std::fs;
+use serde_json::json;
 use std::io::Error;
 use std::path::Path;
 use crate::errors::CommandResult;
 mod errors;
-
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-  format!("Hello, {}! You've been greeted from Rust!", name)
-}
+use tauri::Manager;
 
 #[tauri::command]
-fn set_json(data: String) -> CommandResult<bool> {
+fn set_json(data: &str) -> CommandResult<String> {
   println!(" - : COMMAND : - SETJSON");
-  println!("{:?}",data);
-  let path: &Path = Path::new("../src/json/datas.json");
+  let _json_data: serde_json::Value = json!(data);
+
+  let path: &Path = Path::new("../src/assets/json/datas.json");
   if path.exists() == true {
-    // let file = fs::OpenOptions::new()
-    // .read(true)
-    // .write(true)
-    // .create(true)
-    // .open(path);
-    let result: Result<(), Error> = fs::write(path, data);
-    println!("{:?}",result);
-    Ok(true)
+    let _result: Result<(), Error> = fs::write(path, data);
+    Ok("true".to_owned())
   } else {
-   Ok(false)
+   Ok("false".to_owned())
   }
 }
 
 #[tauri::command]
 fn get_json() -> CommandResult<String> {
   println!(" - : COMMAND : - GETJSON");
-  let path: &Path = Path::new("../src/json/datas.json");
+  let path: &Path = Path::new("../src/assets/json/datas.json");
   if path.exists() == true  {
     let content: Result<String, std::io::Error> = fs::read_to_string(path);
     let unwrap_content: String = content.unwrap_or("2".to_string());
@@ -49,7 +40,16 @@ fn get_json() -> CommandResult<String> {
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, set_json, get_json])
+    .setup(|app| {
+        #[cfg(debug_assertions)] // only include this code on debug builds
+        {
+          let window = app.get_window("main").unwrap();
+          window.open_devtools();
+          window.close_devtools();
+        }
+        Ok(())
+      })
+        .invoke_handler(tauri::generate_handler![get_json, set_json])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

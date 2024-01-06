@@ -1,36 +1,35 @@
 .card {
-    /* height: 65%;
-    padding: 4px;
-    margin: 1%;
-    border-radius: 5px;
-    background-color: rgb(255, 255, 255);
-    -webkit-box-shadow: 0px 0px 31px -4px rgba(140,140,140,1);
-    -moz-box-shadow: 0px 0px 31px -4px rgba(140,140,140,1);
-    box-shadow: 0px 0px 31px -4px rgba(140,140,140,1); */
     background-color: rgb(255, 255, 255);
     flex-direction: column;
-    height: 70vh;
+    height: 80vh;
     width: 50vh;
     border-radius: 4%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.card .divImg {
+  }
+  
+  .card .divImg {
     width: 100%;
     height: 60%;
     border-radius: 4%;
     position: relative;
     box-shadow: -4px 2px 8px 0 rgb(0 0 0 / 20%), -2px 5px 20px 0 rgb(0 0 0 / 19%);
-}
-
-.card .divImg label {
+  }
+  
+  .card .divImg form {
+    height: 100%;
+    width: 100%;
+    padding: 0%;
+    margin: 0%;
+  }
+  
+  .card .divImg label {
     width: 100%;
     height: 100%;
     text-align: center;
     display: flex;
-}
-
-.card .divImg label img {
+  }
+  
+  .card .divImg label img {
     width: 100%;
     height: auto;
     padding: 0;
@@ -39,26 +38,26 @@
     object-fit: cover;
     border-radius: 4% 4% 0% 0%;
     cursor: pointer;
-}
-
-.card .divImg input {
+  }
+  
+  .card .divImg label button {
     position: absolute;
     width: 100%;
     height: 100%;
     cursor: pointer;
     display: none;
-}
-
-.card .title {
+  }
+  
+  .card .title {
     height: 4vh;
     margin-top: 3% !important;
     margin-bottom: 3% !important;
     padding: 0 !important;
     font-family: system-ui;
     width: 100%;
-}
-
-.card .title textarea {
+  }
+  
+  .card .title textarea {
     width: 100%;
     height: 100%;
     border: 0px;
@@ -71,27 +70,27 @@
     text-overflow: ellipsis;
     font-weight: bold;
     font-family: system-ui;
-}
-
-.card .content {
+  }
+  
+  .card .content {
     height: 40%;
     display: flex;
     flex-direction: column;
     max-height: 100%;
     max-width: 100%;
     padding: 0%;
-}
-
-.card .text {
+  }
+  
+  .card .text {
     width: 90%;
     height: auto;
     margin-left: 2%;
     margin-right: 2%;
     padding: 0 !important;
     text-align: center;
-}
-
-.card .text textarea {
+  }
+  
+  .card .text textarea {
     width: 100%;
     min-height: 10vh;
     text-overflow: ellipsis;
@@ -101,22 +100,22 @@
     scroll-behavior: unset;
     overflow: hidden;
     resize: none;
-}
-
-.card .end {
+  }
+  
+  .card .end {
     height: auto;
     width: 100%;
     margin: 2% !important;
     padding: 0 !important;
-}
-
-/* ----------- */
-
-.conteneur-fl {
+  }
+  
+  /* ----------- */
+  
+  .conteneur-fl {
     background-color: #9c000096;
-}
-
-.validateButton {
+  }
+  
+  .validateButton {
     width: 50%;
     height: auto;
     padding: 4%;
@@ -130,17 +129,25 @@
     cursor: pointer;
     transition: 1.5s;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
-.validateButton:hover {
+  }
+  
+  .validateButton:hover {
     background-color: rgb(255, 255, 255);
     color: black;
     transition: 2s;
     border: 1px solid black;
-}
-
-.validateButton:active {
+  }
+  
+  .validateButton:active {
     box-shadow: rgba(0, 0, 0, 0.63) 0px 5px 15px;
     background-color: #b31616;
     transition: 0.2s;
-}
+  }
+  
+  @media only screen and (max-width: 700px) {
+    .card {
+      width: 90%;
+      height: 70%;
+    }
+  }
+  

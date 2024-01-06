@@ -13,11 +13,10 @@ edition = "2021"
 tauri-build = { version = "1.5", features = [] }
 
 [dependencies]
-tauri = { version = "1.5", features = [ "path-all", "fs-write-file", "fs-read-file", "fs-read-dir", "fs-exists", "shell-open"] }
+tauri = { version = "1.5", features = [ "protocol-asset", "window-start-dragging", "window-minimize", "dialog-save", "dialog-ask", "shell-open", "path-all", "dialog-message", "window-show", "window-unmaximize", "fs-all", "window-hide", "dialog-open", "window-unminimize", "dialog-confirm", "http-request", "window-close", "window-maximize"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 reqwest = { version = "0.11.23", features = ["json", "blocking"] }
-log = "0.4"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

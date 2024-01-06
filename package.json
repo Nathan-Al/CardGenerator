@@ -1,16 +1,22 @@
 {
   "name": "cardgenerator",
   "private": true,
-  "version": "1.1.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "tauri": "tauri"
   },
-  "devDependencies": {
-    "@tauri-apps/cli": "^1.5.8"
-  },
   "dependencies": {
-    "@tauri-apps/api": "^1.5.3",
-    "jquery": "^3.7.1"
+    "@tauri-apps/api": "^1.5.2",
+    "axios": "^1.6.3",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.5.8",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^5.0.0"
   }
 }

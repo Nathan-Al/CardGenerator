@@ -1,16 +1,42 @@
 {
   "build": {
-    "beforeDevCommand": "",
-    "beforeBuildCommand": "",
-    "devPath": "../src",
-    "distDir": "../src",
-    "withGlobalTauri": true
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:1420",
+    "distDir": "../src"
   },
   "package": {
-    "productName": "cardgenerator",
-    "version": "1.1.0"
+    "productName": "CardGenerator",
+    "version": "1.2.0"
   },
   "tauri": {
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "hymperlion.dev",
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ]
+    },
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' asset: https://asset.localhost"
+    },
+    "windows": [
+      {
+        "decorations": false,
+        "fullscreen": false,
+        "resizable": true,
+        "minimizable": true,
+        "maximizable": true,
+        "title": "cardgenerator",
+        "width": 800,
+        "height": 600
+      }
+    ],
     "allowlist": {
       "all": false,
       "shell": {
@@ -21,38 +47,39 @@
         "all": true
       },
       "fs": {
-        "readFile": true,
-        "writeFile": true,
-        "readDir": true,
-        "exists": true,
+        "all": true,
         "scope": [
-          "$APPDATA/*"
+          "$APPDATA/*",
+          "$APPDATA/img/*"
         ]
+      },
+      "http": {
+        "all": false,
+        "request": true
+      },
+      "window": {
+        "all": false,
+        "close": true,
+        "hide": true,
+        "show": true,
+        "maximize": true,
+        "minimize": true,
+        "unmaximize": true,
+        "unminimize": true,
+        "startDragging": true
+      },
+      "dialog": {
+        "all": false,
+        "ask": true,
+        "confirm": true,
+        "message": true,
+        "open": true,
+        "save": true
+      },
+      "protocol": {
+        "asset": true,
+        "assetScope": ["**"]
       }
-    },
-    "bundle": {
-      "active": true,
-      "targets": "all",
-      "identifier": "fr.hymp.dev",
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ]
-    },
-    "security": {
-      "csp": null
-    },
-    "windows": [
-      {
-        "fullscreen": false,
-        "resizable": true,
-        "title": "cardgenerator",
-        "width": 800,
-        "height": 800
-      }
-    ]
+    }
   }
 }

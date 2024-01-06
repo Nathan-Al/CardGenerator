@@ -1,7 +1,4 @@
-// const { invoke } = window.__TAURI__.tauri;
+import { createApp } from "vue";
+import App from "./App.vue";
 
-// invoke('greet', { name: 'World' })
-// // `invoke` returns a Promise
-// .then((response) => {
-//   window.header.innerHTML = response
-// })
+createApp(App).mount("#app");
