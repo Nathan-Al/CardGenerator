@@ -3,24 +3,45 @@
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
     "devPath": "http://localhost:1420",
-    "distDir": "../src"
+    "distDir": "../dist"
   },
   "package": {
     "productName": "CardGenerator",
-    "version": "1.2.0"
+    "version": "1.2.3"
   },
   "tauri": {
     "bundle": {
       "active": true,
       "targets": "all",
       "identifier": "hymperlion.dev",
+      "resources": [
+        "json/*"
+      ],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
         "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
-      ]
+      ],
+      "windows": {
+        "allowDowngrades": true,
+        "certificateThumbprint": null,
+        "digestAlgorithm": null,
+        "nsis": null,
+        "timestampUrl": null,
+        "tsp": false,
+        "webviewFixedRuntimePath": null,
+        "webviewInstallMode": {
+          "silent": true,
+          "type": "downloadBootstrapper"
+        },
+        "wix": {
+          "language": [
+            "en-US"
+          ]
+        }
+      }
     },
     "security": {
       "csp": "default-src 'self'; img-src 'self' asset: https://asset.localhost"
@@ -33,15 +54,16 @@
         "minimizable": true,
         "maximizable": true,
         "title": "cardgenerator",
-        "width": 800,
-        "height": 600
+        "width": 900,
+        "height": 800
       }
     ],
     "allowlist": {
       "all": false,
       "shell": {
         "all": false,
-        "open": true
+        "open": true,
+        "execute": true
       },
       "path": {
         "all": true
@@ -50,7 +72,11 @@
         "all": true,
         "scope": [
           "$APPDATA/*",
-          "$APPDATA/img/*"
+          "$APPDATA/img/*",
+          "$APPLOCALDATA/",
+          "$APPLOCALDATA/*",
+          "$APPLOCALDATA/img/*",
+          "$RESOURCE/json/*"
         ]
       },
       "http": {

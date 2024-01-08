@@ -1,56 +1,86 @@
-<script setup>
-  import { onMounted } from 'vue';
+<script lang="js">
+  import { ref } from 'vue';
   import { appWindow } from '@tauri-apps/api/window'
+  import { appLocalDataDir, resourceDir } from '@tauri-apps/api/path';
   import { exists, BaseDirectory, createDir } from '@tauri-apps/api/fs';
   import cardComponent from './components/cardComponent/cardComponent.vue';
 
-  const initialize = () => {
-    verifyImgExist()
-  };
-  onMounted(() => initialize());
-  function minimize () {
-    appWindow.minimize()
-  }
+  export default {
+    async created() {
+      await this.verifyImgExist()
+    },
+    data: () => ({
+      allOk: ref(false),
+      erreur: ref('')
+    }),
+    components: {
+      cardComponent
+    },
+    methods: {
+      async verifyImgExist () {
+        try {
+          const appLocalDataDirPath = await appLocalDataDir();
 
-  function maximise () {
-    appWindow.toggleMaximize()
-  }
+          if(!await exists(appLocalDataDirPath)) {
+            console.log('Appdata n\'existe pas')
+          }
+          this.allOk = true
+        } catch (error) {
+          console.log(' - ERROR : '+error)
+          this.erreur = error
+          this.allOk = false
+          return false
+        }
 
-  function close () {
-    appWindow.close()
-  }
+        try {
+          if(!await exists('img', { dir: BaseDirectory.AppLocalData })) {
+            await createDir('img', { dir: BaseDirectory.AppLocalData, recursive: false });
+          }
+          this.allOk = true
+          console.log('STARTED')
+          return true
+        } catch (error) {
+            console.log(' - ERROR : '+error)
+            this.erreur = error
+            this.allOk = false
+            return false
+          }
+      },
+      minimize () {
+        appWindow.minimize()
+      },
 
-  async function verifyImgExist () {
-    if(!await exists('img', { dir: BaseDirectory.AppData })) {
-      await createDir('img', { dir: BaseDirectory.AppData, recursive: false });
+      maximise () {
+        appWindow.toggleMaximize()
+      },
+
+      close () {
+        appWindow.close()
+      }
     }
-    console.log('STARTED')
   }
-
 </script>
 
 <template>
   <body id="body">
     <div data-tauri-drag-region class="titlebar">
         <div @click="minimize" class="titlebar-button" id="titlebarMinimize">
-            <img
-            src="https://api.iconify.design/mdi:window-minimize.svg"
-            alt="minimize"
-            />
+            <font-awesome-icon icon="fa-solid fa-window-minimize" alt="minimize"/>
         </div>
         <div @click="maximise" class="titlebar-button" id="titlebar-maximize">
-            <img
-            src="https://api.iconify.design/mdi:window-maximize.svg"
-            alt="maximize"
-            />
+            <font-awesome-icon icon="fa-window-maximize"  alt="maximize"/>
         </div>
         <div @click="close" class="titlebar-button" id="titlebar-close">
-            <img src="https://api.iconify.design/mdi:close.svg" alt="close" />
+            <font-awesome-icon icon="fa-solid fa-xmark" alt="close"/>
         </div>
         </div>
       <div class="main">
           <div class="conteneur-fl center">
-            <cardComponent />
+            <cardComponent v-if="allOk"/>
+            <div class="div-error center" v-else>
+              <h1>IMPOSSIBLE DE CHARGER LA PAGE</h1>
+              <h2>ERROR : {{ erreur }}</h2>
+            </div>
           </div>
       </div>
   </body>
@@ -259,6 +289,10 @@
       align-items: center;
   }
 
+  .strong {
+    font-weight: bolder;
+  }
+
   .content {
       padding: 1%;
       font-size: large;
@@ -296,5 +330,17 @@
       background-color: black;
       padding: 0;
       margin: 0;
+  }
+
+  .div-error {
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+    text-align: start;
+    -webkit-text-stroke-width: thin;
+  }
+
+  .div-error h1 {
+    margin-bottom: 2%;
   }
 </style>

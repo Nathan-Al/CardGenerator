@@ -5,6 +5,7 @@
   import { exists, BaseDirectory, copyFile } from '@tauri-apps/api/fs';
   import { open } from "@tauri-apps/api/dialog";
   import { convertFileSrc } from '@tauri-apps/api/tauri';
+  import manuelComponent from "../manuelComponent/manuelComponent.vue";
 
   export default {
     async created() {
@@ -29,10 +30,9 @@
           }
       })
       window.addEventListener('keypress', async (event) => {
-        if(event.key == 's' && fisrtKeyPressed && !secondKeyPressed) {
+        if(event.key == 's' && fisrtKeyPressed && !secondKeyPressed || event.key == "\x13") {
           fisrtKeyPressed = false
           secondKeyPressed = true
-          console.log('Both pressed')
           this.saveCardData()
         }
       })
@@ -52,6 +52,9 @@
       isChangeButton: false,
       changeOccured: false
     }),
+    components: {
+      manuelComponent
+    },
     methods: {
       async imageHandler() {
         let response = await this.changeCardImage()
@@ -87,7 +90,9 @@
         return convertedImgUrl
       },
       async sendCardDataToView() {
-        await this.getJson()
+        if(await this.getJson() == false) {
+          window.alert('ERROR : Unable to get the application datas')
+        }
         this.imgCardsrc = this.dataJson.image[Math.floor(Math.random() * this.dataJson.image.length)]
         this.cardTitle = this.dataJson.titre[Math.floor(Math.random() * this.dataJson.titre.length)]
         this.cardContent = this.dataJson.text[Math.floor(Math.random() * this.dataJson.text.length)]
@@ -123,14 +128,18 @@
         await invoke('get_json')
         .then((response) => {
           this.dataJson = isProxy(JSON.parse(response)) ? JSON.parse(response) : toRaw(JSON.parse(response))
+          return true
         })
-        .catch(err => alert(err))
+        .catch((error) => {
+          console.log(` - ERROR : ${error}`)
+          return false
+        })
       },
       async uploadPicture () {
-        if(await exists('img', { dir: BaseDirectory.AppData })) {
+        if(await exists('img', { dir: BaseDirectory.AppLocalData })) {
           try {
             let nameFile = Math.random().toString(36).substring(2,20).replaceAll('.','')
-            if(await copyFile(this.imageSrc, `img/${nameFile}.png`, { dir: BaseDirectory.AppData }) == null) {
+            if(await copyFile(this.imageSrc, `img/${nameFile}.png`, { dir: BaseDirectory.AppLocalData }) == null) {
               return true
             } else {
               console.log(' - ERROR : Can\'t copy the file')
@@ -153,6 +162,7 @@
 
 <template>
   <div class="card" id="card">
+    <manuelComponent />
     <div class="divImg">
         <label for="imgCardInput">
           <img :src=this.imgCardsrc alt="" srcset="" id="contrImg">
@@ -168,7 +178,7 @@
       </div>
       <div class="end center">
         <button class="center validateButton" type="submit" id="straightToHell">
-          <textarea @change="isChangeButton = true, changeOccured = true" v-model=cardButtonText class="center" name="buttonText" id="buttonText" cols="1" rows="1" wrap="hard"></textarea>
+          <textarea @change="isChangeButton = true, changeOccured = true" v-model=cardButtonText class="center" name="buttonText" id="buttonText" cols="1" rows="1" wrap="hard" spellcheck="false"></textarea>
         </button>
       </div>
     </div>
