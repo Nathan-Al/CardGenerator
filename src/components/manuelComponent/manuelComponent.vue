@@ -1,9 +1,5 @@
 <script>
 export default {
-  onMounted() {
-    console.log("mounted")
-    setTimeout(this.moveInfo(), 3000)
-  },
   methods: {
     moveInfo () {
       let divInfo = document.getElementById('divInfo')

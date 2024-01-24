@@ -114,8 +114,10 @@
           let datasJsonToSend = JSON.stringify(this.dataJson)
           invoke('set_json', {data: datasJsonToSend})
           .then((response) => {
-            if(response){
-              console.log(` - RESPONSE : Save OK ${response}`)
+            response = isProxy(JSON.parse(response)) ? JSON.parse(response) : toRaw(JSON.parse(response))
+
+            if(response || response =='true'){
+              console.log(` - RESPONSE : Saved ${response}`)
               this.getJson()
               this.sendCardDataToView()
             }

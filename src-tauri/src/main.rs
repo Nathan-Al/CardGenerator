@@ -11,11 +11,17 @@ fn set_json(data: &str, handle: tauri::AppHandle) -> CommandResult<String> {
   println!(" - : COMMAND : - SETJSON");
   let resource_path: std::path::PathBuf = handle.path_resolver()
   .resolve_resource("json/datas.json")
-  .expect("failed to resolve resource");
+  .expect(" - ERROR - : Impossible de trouver le JSON");
+
   let result: Result<(), Error> = fs::write(resource_path, data);
-  let r: () = result.unwrap();
-  println!("{:?}", r);
-  Ok("true".to_owned())
+  println!("{}", result.is_ok());
+  if result.is_ok() {
+    println!(" - RESULT - : [SETJSON] le JSON a été trouvé");
+    Ok("true".to_owned())
+  } else {
+    println!(" - ERROR - : [SETJSON] Impossible de sauvegarder le JSON");
+    Ok("false".to_owned())
+  }
 }
 
 #[tauri::command]
@@ -24,7 +30,7 @@ fn get_json(handle: tauri::AppHandle) -> CommandResult<String> {
 
   let resource_path: std::path::PathBuf = handle.path_resolver()
   .resolve_resource("json/datas.json")
-  .expect("failed to resolve resource");
+  .expect(" - ERROR - : [GETJSON] Impossible de trouver le JSON");
   let file: fs::File = std::fs::File::open(&resource_path).unwrap();
   let content: serde_json::Value = serde_json::from_reader(file).unwrap();
 

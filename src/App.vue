@@ -1,7 +1,7 @@
 <script lang="js">
   import { ref } from 'vue';
   import { appWindow } from '@tauri-apps/api/window'
-  import { appLocalDataDir, resourceDir } from '@tauri-apps/api/path';
+  import { appLocalDataDir } from '@tauri-apps/api/path';
   import { exists, BaseDirectory, createDir } from '@tauri-apps/api/fs';
   import cardComponent from './components/cardComponent/cardComponent.vue';
 
