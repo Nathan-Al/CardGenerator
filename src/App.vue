@@ -1,8 +1,8 @@
 <script lang="js">
   import { ref } from 'vue';
   import { appWindow } from '@tauri-apps/api/window'
-  import { appLocalDataDir } from '@tauri-apps/api/path';
-  import { exists, BaseDirectory, createDir } from '@tauri-apps/api/fs';
+  import { appLocalDataDir, resourceDir } from '@tauri-apps/api/path';
+  import { exists, copyFile, BaseDirectory, createDir } from '@tauri-apps/api/fs';
   import cardComponent from './components/cardComponent/cardComponent.vue';
 
   export default {
@@ -33,6 +33,9 @@
         }
 
         try {
+          if (!await exists('json/datas.json', { dir: BaseDirectory.appLocalDataDirPath })) {
+            await copyFile('datas.json', `${appLocalDataDirPath}/datas.json`, { dir: BaseDirectory.resourceDir });
+          }
           if(!await exists('img', { dir: BaseDirectory.AppLocalData })) {
             await createDir('img', { dir: BaseDirectory.AppLocalData, recursive: false });
           }

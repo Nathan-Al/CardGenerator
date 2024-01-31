@@ -37,6 +37,12 @@ fn get_json(handle: tauri::AppHandle) -> CommandResult<String> {
   Ok(content.to_string())
 }
 
+#[tauri::command]
+fn create_json() -> CommandResult<String> {
+  println!(" - : COMMAND : - CREATE JSON");
+  
+  Ok("".to_owned())
+}
 
 fn main() {
     tauri::Builder::default()

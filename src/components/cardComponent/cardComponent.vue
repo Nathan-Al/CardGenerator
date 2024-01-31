@@ -3,12 +3,14 @@
   import { isProxy, toRaw } from 'vue';
   import { invoke } from "@tauri-apps/api/tauri";
   import { exists, BaseDirectory, copyFile } from '@tauri-apps/api/fs';
-  import { open } from "@tauri-apps/api/dialog";
-  import { convertFileSrc } from '@tauri-apps/api/tauri';
   import manuelComponent from "../manuelComponent/manuelComponent.vue";
+  import imageCardComponent from "./imageCardComponent.vue/imageCardComponent.vue";
 
   export default {
     async created() {
+      if(await this.getJson() == false) {
+          window.alert('ERROR : Unable to get the application datas')
+      }
       let fisrtKeyPressed = false
       let secondKeyPressed = false
       await this.sendCardDataToView()
@@ -40,7 +42,7 @@
     data: () => ({
       cardTitle: ref(''),
       cardContent: ref(''),
-      imgCardsrc: ref(''),
+      imgSrc: ref(''),
       imageSrc: ref(''),
       cardButtonText: ref(''),
       dataJson: ref(''),
@@ -53,62 +55,27 @@
       changeOccured: false
     }),
     components: {
-      manuelComponent
+      manuelComponent,
+      imageCardComponent
     },
     methods: {
-      async imageHandler() {
-        let response = await this.changeCardImage()
-        if(response) {
-          this.imgCardsrc = response
-        } else {
-          console.log(' - ERROR : Unable to use that file or the user didn\'t pick one')
-          return response
-        }
-        if(!this.imgCardsrc) return
-        this.isChangeImage = true
-        this.changeOccured = true
-      },
-      async changeCardImage () {
-        let selected = null
-        try {
-          selected = await open({
-            multiple: false,
-            title: "Choose a Picture",
-            filters: [{
-              name: "Images",
-              extensions: ["png", "webp", "jpg", "jpeg"]
-            }]
-          })
-          if(selected === null) return false;
-          this.imageSrc = selected
-        } catch (error) {
-          console.log(` - ERROR : ${error}`)
-          return false
-        }
-
-        let convertedImgUrl = convertFileSrc(selected);
-        return convertedImgUrl
-      },
       async sendCardDataToView() {
-        if(await this.getJson() == false) {
-          window.alert('ERROR : Unable to get the application datas')
-        }
-        this.imgCardsrc = this.dataJson.image[Math.floor(Math.random() * this.dataJson.image.length)]
+        this.imgSrc = this.dataJson.image[Math.floor(Math.random() * this.dataJson.image.length)]
         this.cardTitle = this.dataJson.titre[Math.floor(Math.random() * this.dataJson.titre.length)]
         this.cardContent = this.dataJson.text[Math.floor(Math.random() * this.dataJson.text.length)]
         this.cardButtonText = this.dataJson.button[Math.floor(Math.random() * this.dataJson.button.length)]
       },
       async saveCardData () {
         if(this.changeOccured) {
-          this.isChangeImage? this.dataJson.image.push(this.imgCardsrc): null
+          this.isChangeImage? this.dataJson.image.push(this.imgSrc): null
           this.isChangeTitle? this.dataJson.titre.push(this.cardTitle): null
           this.isChangeContent? this.dataJson.text.push(this.cardContent): null
           this.isChangeButton? this.dataJson.button.push(this.cardButtonText): null
           if(this.isChangeImage) {
-            if(!this.uploadPicture()) {
-              this.dataJson.image.pop()
-              console.log(' - ERROR : Fail to upload file')
-            }
+            // if(!this.uploadPicture()) {
+            //   this.dataJson.image.pop()
+            //   console.log(' - ERROR : Fail to upload file')
+            // }
           }
 
           let datasJsonToSend = JSON.stringify(this.dataJson)
@@ -153,9 +120,6 @@
         } else {
           console.log(' - ERROR : The application directory picture dosen\'t exist')
         }
-      },
-      mother () {
-        console.log('ME')
       }
     }
   }
@@ -165,12 +129,7 @@
 <template>
   <div class="card" id="card">
     <manuelComponent />
-    <div class="divImg">
-        <label for="imgCardInput">
-          <img :src=this.imgCardsrc alt="" srcset="" id="contrImg">
-          <button name="imgCard" id="imgCardInput" @click="imageHandler"></button>
-        </label>
-    </div>
+    <imageCardComponent @response="(n) => {this.imgSrc = n.imgUrl; this.imageSrc = n.imgSelected; this.isChangeImage = true; this.changeOccured = true}" :imgCardsrc="this.imgSrc" />
     <div class="content center">
       <div class="title center">
         <textarea @change="isChangeTitle = true, changeOccured = true" v-model=cardTitle name="contratTitle" id="contratTitleTextArea" spellcheck="false"></textarea>
@@ -196,48 +155,7 @@
     border-radius: 4%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
-  
-  .card .divImg {
-    width: 100%;
-    height: 60%;
-    border-radius: 4%;
-    position: relative;
-    box-shadow: -4px 2px 8px 0 rgb(0 0 0 / 20%), -2px 5px 20px 0 rgb(0 0 0 / 19%);
-  }
-  
-  .card .divImg form {
-    height: 100%;
-    width: 100%;
-    padding: 0%;
-    margin: 0%;
-  }
-  
-  .card .divImg label {
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    display: flex;
-  }
-  
-  .card .divImg label img {
-    width: 100%;
-    height: auto;
-    padding: 0;
-    margin: 0;
-    background-color: black;
-    object-fit: cover;
-    border-radius: 4% 4% 0% 0%;
-    cursor: pointer;
-  }
-  
-  .card .divImg label button {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    display: none;
-  }
-  
+
   .card .title {
     height: 20%;
     margin-top: 5% !important;

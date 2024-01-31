@@ -80,8 +80,7 @@
           "$APPLOCALDATA/",
           "$APPLOCALDATA/*",
           "$APPLOCALDATA/img/*",
-          "$RESOURCE/json/*",
-          "/usr/lib/card-generator/*"
+          "$RESOURCE/json/*"
         ]
       },
       "http": {
